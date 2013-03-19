@@ -122,3 +122,6 @@ For example, the following makes this user unhappy:
     mapper.map("unhappy time"); //returns 'UNHAPPY'
 
 Each map group follows the rules of the simple map; this just walks over the groups in order until an match is made.
+
+## License
+Released under the [MIT license](http://www.opensource.org/licenses/MIT).
