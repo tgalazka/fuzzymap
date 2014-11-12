@@ -98,4 +98,26 @@ describe("When working with fuzzymap synchronously", function() {
       done();
     });
   });
+
+  describe("when working with an object item", function() {
+    it("should shallowly map the whole object", function(done) {
+      var map = {
+        gold: /lead/i,
+        wine: ["water", "H20"]
+      };
+      var param = {
+        leAD: 1,
+        water: "splash",
+        H20: "Ahh!",
+      };
+      var expected = {
+        gold: 1,
+        wine: "Ahh!"
+      };
+      
+      var result = Fuzzymap.defineMap(map);
+      expect(result.map(param)).to.eql(expected);
+      done();
+    });
+  });
 });

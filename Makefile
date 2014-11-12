@@ -1,8 +1,11 @@
 default: all
 
-all: unit
+all: test
 
-test: all
+test: install unit
+
+install:
+	npm install
 
 unit:
 	@NODE_ENV=test ./node_modules/.bin/mocha test/unit

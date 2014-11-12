@@ -9,16 +9,13 @@ var _ = require('underscore');
  */
 
 module.exports = (function() {
-
   var Base = {};
-
   Base.defineMap = function(mapObj, callback) {
     if(!_.isFunction(callback))
       return newFuzzyMap(mapObj);
 
     return callback(null, newFuzzyMap(mapObj));
   };
-
   return Base;
 })();
 
@@ -36,25 +33,42 @@ var newFuzzyMap = function(map) {
   if(!_.isArray(map))
     Map = [Map]
 
-  Fuzzymap.Map = function() {
-    return PureMap;
-  }
-
-  Fuzzymap.last = function() {
-    return LastValue;
-  }
+  Fuzzymap.Map = function() { return PureMap; };
+  Fuzzymap.last = function() { return LastValue; };
 
   Fuzzymap.map = function(item) {
+    LastValue = item;
+    
+    if(_.isObject(item))
+      testObject(item);
+    else
+      testItem(item);
+
+    return Fuzzymap.last();
+  };
+
+  var testObject = function(param) {
+    var result = {};
+    _.each(_.keys(param), function(key) {
+      var mappedKey = testItem(key);
+      result[mappedKey] = param[key];
+    });
+    LastValue = result;
+    
+    return result;
+  };
+
+  var testItem = function(item) {
     LastValue = item;
     _.find(Map, function(MapGroup) {
       return testGroup(item, MapGroup) !== false;;
     });
 
     return Fuzzymap.last();
-  }
+  };
     
   var testGroup = function(item, MapGroup) {
-    if(MapGroup === null || MapGroup === undefined)
+    if(nil(MapGroup))
       MapGroup = {};
 
     var mapped = _.find(_.keys(MapGroup), function(mapString) {

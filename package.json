@@ -1,7 +1,7 @@
 {
   "name": "fuzzymap",
-  "version": "0.1.0",
-  "author": "tgalazka",
+  "version": "1.0.0",
+  "author": "tgalazka <tjgalazka@gmail.com>",
   "description": "fuzzy string matching and mapping",
   "repository": {
     "type": "git",
@@ -9,13 +9,13 @@
   },
   "main": "fuzzymap.js",
   "dependencies" : {
-    "underscore": "1.4.3"
+    "underscore": "1.7.0"
   },
   "devDependencies": {
     "expect.js": "0.2.0",
     "mocha": "1.8.1"
   },
   "engines": {
-    "node": ">=0.6"
+    "node": ">=0.10"
   }
 }
