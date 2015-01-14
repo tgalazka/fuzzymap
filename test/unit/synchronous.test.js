@@ -120,4 +120,17 @@ describe("When working with fuzzymap synchronously", function() {
       done();
     });
   });
+
+  describe("when working with #extract", function() {
+    it("should return just the mapped keys and values", function(done) {
+      var map = { GOLD: /lead/i };
+      var params = { lead: 1, ignore: 'me' };
+      var expected = { GOLD: 1 };
+
+      var mapper = Fuzzymap.defineMap(map);
+      var result = mapper.extract(params);
+      expect(result).to.eql(expected);
+      done();
+    });
+  });
 });

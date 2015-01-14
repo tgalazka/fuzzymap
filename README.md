@@ -121,7 +121,62 @@ For example, the following makes this user unhappy:
     mapper.map("happy");        //returns 'UNHAPPY'
     mapper.map("unhappy time"); //returns 'UNHAPPY'
 
-Each map group follows the rules of the simple map; this just walks over the groups in order until an match is made.
+### Object Mapping
+This style is useful for shallow mapping the keys of objects.
+Unmapped keys are passed through unaltered.
+
+    var fuzzymap = require('fuzzymap');
+
+    var objectMap = {
+        AuthorName: [/author/, /author_?name/i],
+        PIN: ["personal identification number", /pin/i, /p\.i\.n\./i]
+    };
+
+    var object = {
+        author: "George R. R. Martin",
+        pin: 12345,
+        raw: 'value'
+    };
+
+    var mapper = fuzzymap.defineMap(objectMap);
+    var result = mapper.map(object);
+    
+    /**
+      * result == {
+      *   AuthorName: 'George R. R. Martin',
+      *   PIN: 12345,
+      *   raw: 'value'
+      * };
+      *
+      * result === object is true
+      */
+
+### Extract Mapped Keys
+This style is useful for shallow mapping the keys of objects into a new object.
+Unmapped keys are excluded from the results; default mapped keys are null.
+
+    var fuzzymap = require('fuzzymap');
+
+    var objectMap = {
+        AuthorName: [/author/, /author_?name/i],
+        PIN: ["personal identification number", /pin/i, /p\.i\.n\./i]
+    };
+
+    var object = {
+        author: "George R. R. Martin",
+    };
+
+    var mapper = fuzzymap.defineMap(objectMap);
+    var result = mapper.extract(object);
+    
+    /**
+      * result == {
+      *   AuthorName: 'George R. R. Martin',
+      *   PIN: null
+      * };
+      *
+      * result === object is false
+      */
 
 ## License
 Released under the [MIT license](http://www.opensource.org/licenses/MIT).

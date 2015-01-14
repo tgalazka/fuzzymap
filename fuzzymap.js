@@ -47,6 +47,34 @@ var newFuzzyMap = function(map) {
     return Fuzzymap.last();
   };
 
+  Fuzzymap.extract = function(item) {
+    LastValue = item;
+
+    if(!_.isObject)
+      return item;
+
+    return extractObject(item);
+  };
+
+  var extractObject = function(param) {
+    var result = {};
+    var defaults = {};
+    _.each(Map, function(MapGroup) {
+      _.each(_.keys(MapGroup), function(key) {
+        if(!defaults.hasOwnProperty(key))
+          defaults[key] = null;
+      });
+    });
+
+    _.each(_.keys(param), function(key) {
+      var mappedKey = testItem(key);
+      if(defaults.hasOwnProperty(mappedKey))
+        defaults[mappedKey] = param[key];
+    });
+
+    return defaults;
+  };
+
   var testObject = function(param) {
     var result = {};
     _.each(_.keys(param), function(key) {
@@ -61,7 +89,7 @@ var newFuzzyMap = function(map) {
   var testItem = function(item) {
     LastValue = item;
     _.find(Map, function(MapGroup) {
-      return testGroup(item, MapGroup) !== false;;
+      return testGroup(item, MapGroup) !== false;
     });
 
     return Fuzzymap.last();
