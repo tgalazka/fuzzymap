@@ -76,6 +76,22 @@ Defaults to null.
     mapper.map("Username"); //returns 'Name'
     mapper.last();          //returns 'Name'
 
+### Mapper.keys()
+Returns a disorderd, unique list of registered map keys.
+Defaults to empty array.
+
+    var fuzzymap = require('fuzzymap');
+    var mapper = fuzzymap.defineMap([{
+        'Name': /name/i,
+        'Title': ['title', 'Title']
+    }, {
+        'Number': [/\d+/]
+    }, {
+        'Name': 'duplicate key'
+    });
+
+    mapper.keys();        //returns ['Name', 'Title', 'Number']
+
 ## Usage
 ### Simple Mappings
 This style is useful for when maps are simple and you're not worried about collisions.
@@ -151,7 +167,7 @@ Unmapped keys are passed through unaltered.
       * result === object is true
       */
 
-### Extract Mapped Keys
+### Extract Mapped Keys from Object
 This style is useful for shallow mapping the keys of objects into a new object.
 Unmapped keys are excluded from the results; default mapped keys are null.
 
@@ -177,6 +193,7 @@ Unmapped keys are excluded from the results; default mapped keys are null.
       *
       * result === object is false
       */
+
 
 ## License
 Released under the [MIT license](http://www.opensource.org/licenses/MIT).
