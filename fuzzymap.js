@@ -35,6 +35,16 @@ var newFuzzyMap = function(map) {
 
   Fuzzymap.Map = function() { return PureMap; };
   Fuzzymap.last = function() { return LastValue; };
+  Fuzzymap.keys = function() {
+    return _.chain(Map)
+      .compact()
+      .map(function(mapDefinition) {
+        return _.keys(mapDefinition);
+      })
+      .flatten()
+      .uniq()
+      .value();
+  }
 
   Fuzzymap.map = function(item) {
     LastValue = item;

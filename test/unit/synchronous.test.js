@@ -4,6 +4,8 @@
 
 var Fuzzymap = require("../../fuzzymap");
 
+var _ = require('underscore');
+
 /**
  * Fuzzymap Test - Synchronous
  */
@@ -21,6 +23,53 @@ describe("When working with fuzzymap synchronously", function() {
     expect(result.map("name")).to.equal("new_name");
     expect(result.last()).to.equal("new_name");
     done();
+  });
+
+  describe("when using #keys", function() {
+    it("should return empty array with null map defined", function(done) {
+      var mapper = Fuzzymap.defineMap(null);
+      var expected = [];
+
+      var result = mapper.keys();
+      expect(result).to.eql(expected);
+      done();
+    });
+
+    it("should return an array containing the keys of a simple map", function(done) {
+      var mapper = Fuzzymap.defineMap({
+        'key': 'KEY',
+        'ANOTHER': [1, 2, 3, /\d+/]
+      });
+      var expected = ['key', 'ANOTHER'];
+
+      var result = mapper.keys();
+      expect(result).to.not.be(null);
+      expect(result.length).to.equal(expected.length);
+      _.each(expected, function(exp) {
+        expect(_.indexOf(result, exp)).to.not.equal(-1);
+      });
+      done();
+    });
+    
+    it("should return an array containing the keys of a compound map", function(done) {
+      var mapper = Fuzzymap.defineMap([{
+        'key': 'KEY',
+        'ANOTHER': [1, 2, 3, /\d+/]
+      }, {
+        'third': 'third'
+      }, {
+        'key': 'duplicate'
+      }]);
+      var expected = ['key', 'ANOTHER', 'third'];
+
+      var result = mapper.keys();
+      expect(result).to.not.be(null);
+      expect(result.length).to.equal(expected.length);
+      _.each(expected, function(exp) {
+        expect(_.indexOf(result, exp)).to.not.equal(-1);
+      });
+      done();
+    });
   });
 
   describe("when using it with a basic object map", function() { 
